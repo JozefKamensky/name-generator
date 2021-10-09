@@ -1,15 +1,14 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <LanguageDefinition />
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import LanguageDefinition from './components/LanguageDefinition.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    LanguageDefinition
   }
 }
 </script>
