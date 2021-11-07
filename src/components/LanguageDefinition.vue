@@ -3,13 +3,13 @@
       <table>
         <tr><th>Vowel</th><th>Frequency</th><th>Actions</th></tr>
         <tr v-for="vowel in vowels" v-bind:key="vowel.letter">
-          <Letter :letter="vowel.letter" :frequency="vowel.frequency" @letterChanged="editVowel"/>
+          <Letter :letter="vowel.letter" :frequency="vowel.frequency" @letterChanged="editLetter($event, this.vowels)"/>
         </tr>
       </table>
       <table>
         <tr><th>Consonant</th><th>Frequency</th><th>Actions</th></tr>
         <tr v-for="consonant in consonants" v-bind:key="consonant.letter">
-          <Letter :letter="consonant.letter" :frequency="consonant.frequency" @letterChanged="editConsonant"/>
+          <Letter :letter="consonant.letter" :frequency="consonant.frequency" @letterChanged="editLetter($event, this.consonants)"/>
         </tr>
       </table>
       <input v-model="syllablesInput" placeholder="Syllables" />
@@ -80,19 +80,12 @@ export default {
     }
   },
   methods: {
-    editVowel({ letter, frequency }) {
-      const newVowels = this.vowels.slice()
-      const i = newVowels.map(v => v.letter).indexOf(letter)
-      newVowels[i].frequency = frequency
-      newVowels[i].editing = false
-      this.vowels = newVowels
-    },
-    editConsonant({ letter, frequency }) {
-      const newConsonants = this.consonants.slice()
-      const i = newConsonants.map(v => v.letter).indexOf(letter)
-      newConsonants[i].frequency = frequency
-      newConsonants[i].editing = false
-      this.consonants = newConsonants
+    editLetter({ letter, frequency }, list) {
+      const newList = list.slice()
+      const i = newList.map(v => v.letter).indexOf(letter)
+      newList[i].frequency = frequency
+      newList[i].editing = false
+      list = newList
     },
     generate() {
       const syllables = this.syllablesInput.split(',')
