@@ -24,6 +24,7 @@
       <br>
       <input v-model="syllablesInput" placeholder="Syllables" />
       <button @click="generate">Generate</button>
+      <button @click="clear">Clear</button>
       <ul>
         <li v-for="name in names" v-bind:key="name">
           {{ name }}
@@ -114,6 +115,9 @@ export default {
         this.names.push(res)
       }
     },
+    clear() {
+      this.names = []
+    }
   }
 }
 </script>
