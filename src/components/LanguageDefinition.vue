@@ -1,17 +1,27 @@
 <template>
     <div>
-      <table>
-        <tr><th>Vowel</th><th>Frequency</th><th>Actions</th></tr>
-        <tr v-for="vowel in vowels" v-bind:key="vowel.letter">
-          <Letter :letter="vowel.letter" :frequency="vowel.frequency" @letterChanged="editLetter($event, this.vowels)"/>
-        </tr>
-      </table>
-      <table>
-        <tr><th>Consonant</th><th>Frequency</th><th>Actions</th></tr>
-        <tr v-for="consonant in consonants" v-bind:key="consonant.letter">
-          <Letter :letter="consonant.letter" :frequency="consonant.frequency" @letterChanged="editLetter($event, this.consonants)"/>
-        </tr>
-      </table>
+      <div class="horizontalContainer">
+        <div class="verticalContainer">
+          <Letter
+            v-for="vowel in vowels"
+            v-bind:key="vowel.letter"
+            :letter="vowel.letter"
+            :frequency="vowel.frequency"
+            @letterChanged="editLetter($event, this.vowels)"
+          />
+        </div>
+        <div class="verticalContainer">
+          <Letter
+            v-for="consonant in consonants"
+            v-bind:key="consonant.letter"
+            :letter="consonant.letter"
+            :frequency="consonant.frequency"
+            @letterChanged="editLetter($event, this.consonants)"
+          />
+        </div>
+      </div>
+      <span>Enter syllable structure as string of 'c' and 'v', e.g 'cv' represents syllable of one consonant and one vowel.</span>
+      <br>
       <input v-model="syllablesInput" placeholder="Syllables" />
       <button @click="generate">Generate</button>
       <ul>
@@ -107,3 +117,19 @@ export default {
   }
 }
 </script>
+
+<style>
+.horizontalContainer {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+}
+.verticalContainer {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+}
+.width--400 {
+  width: 400px;
+}
+</style>

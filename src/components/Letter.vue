@@ -1,13 +1,13 @@
 <template>
-  <div v-if="editing">
-    <span>{{ letter }}</span>
-    <input type="number" v-model="input" placeholder="Frequency" />
-    <button @click="save">Save</button>
+  <div class="container" v-if="editing">
+    <span class="letter letter-view">{{ letter }}</span>
+    <input class="frequency frequency--edit" type="number" v-model="input" placeholder="Frequency" />
+    <button class="button" @click="save">Save</button>
   </div>
-  <div v-else>
-    <span>{{ letter }}</span>
-    <span>{{ frequency }}</span>
-    <button @click="toEdit">Edit</button>
+  <div class="container" v-else>
+    <span class="letter letter-edit">{{ letter }}</span>
+    <span class="frequency frequency--view">{{ frequency }}</span>
+    <button class="button" @click="toEdit">Edit</button>
   </div>
 </template>
 
@@ -28,7 +28,6 @@ export default {
     },
     save() {
       this.editing = false
-      console.log('emit event')
       this.$emit('letterChanged', { letter: this.letter, frequency: this.input })
     }
   },
@@ -36,4 +35,31 @@ export default {
 </script>
 
 <style>
+.container {
+  padding: 5px;
+  display: flex;
+  flex-flow: row nowrap;
+}
+.letter {
+  margin-right: 5px;
+  width: 30px;
+}
+.letter--view {
+  margin-right: 5px;
+}
+.letter--edit {
+  margin-right: 1px;
+}
+.frequency {
+  width: 50px;
+}
+.frequency--view {
+  margin-right: 10px;
+}
+.frequency--edit {
+  margin-right: 2px;
+}
+.button {
+  width: 60px;
+}
 </style>
