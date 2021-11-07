@@ -3,11 +3,13 @@
       <table>
         <tr><th>Vowel</th><th>Frequency</th><th>Actions</th></tr>
         <tr v-for="vowel in vowels" v-bind:key="vowel.letter">
-          <!-- <td>{{ vowel.letter }}</td>
-          <td v-if="!vowel.editing">{{ vowel.frequency }}</td>
-          <td v-else></td>
-          <td><button @click="prepareToEditVowel(vowel.letter)">Edit</button></td> -->
           <Letter :letter="vowel.letter" :frequency="vowel.frequency" @letterChanged="editVowel"/>
+        </tr>
+      </table>
+      <table>
+        <tr><th>Consonant</th><th>Frequency</th><th>Actions</th></tr>
+        <tr v-for="consonant in consonants" v-bind:key="consonant.letter">
+          <Letter :letter="consonant.letter" :frequency="consonant.frequency" @letterChanged="editConsonant"/>
         </tr>
       </table>
       <input v-model="syllablesInput" placeholder="Syllables" />
@@ -42,15 +44,37 @@ export default {
   },
   data() {
     return {
+      // http://pi.math.cornell.edu/~mec/2003-2004/cryptography/subs/frequencies.html
         vowels: [
-          {letter: 'e', frequency: 12, editing: false},
-          {letter: 'a', frequency:  8, editing: false},
-          {letter: 'o', frequency:  8, editing: false},
-          {letter: 'i', frequency:  7, editing: false},
-          {letter: 'u', frequency:  3, editing: false},
-          {letter: 'y', frequency:  2, editing: false},
+          {letter: 'e', frequency: 12},
+          {letter: 'a', frequency:  8},
+          {letter: 'o', frequency:  8},
+          {letter: 'i', frequency:  7},
+          {letter: 'u', frequency:  3},
+          {letter: 'y', frequency:  2},
           ],
-        consonants: ["b","c","d","f","g","h","j","k","l","m","n","p","q","r","s","t","v","w","x","z"],
+        consonants: [
+          {letter: 't', frequency: 9},
+          {letter: 'n', frequency: 7},
+          {letter: 's', frequency: 6},
+          {letter: 'r', frequency: 6},
+          {letter: 'h', frequency: 6},
+          {letter: 'd', frequency: 4},
+          {letter: 'l', frequency: 4},
+          {letter: 'c', frequency: 3},
+          {letter: 'm', frequency: 3},
+          {letter: 'f', frequency: 2},
+          {letter: 'w', frequency: 2},
+          {letter: 'g', frequency: 2},
+          {letter: 'p', frequency: 2},
+          {letter: 'b', frequency: 2},
+          {letter: 'v', frequency: 1},
+          {letter: 'k', frequency: 0.7},
+          {letter: 'x', frequency: 0.2},
+          {letter: 'q', frequency: 0.1},
+          {letter: 'j', frequency: 0.1},
+          {letter: 'z', frequency: 0.1}
+        ],
         syllablesInput: '',
         names: [],
     }
@@ -63,6 +87,13 @@ export default {
       newVowels[i].editing = false
       this.vowels = newVowels
     },
+    editConsonant({ letter, frequency }) {
+      const newConsonants = this.consonants.slice()
+      const i = newConsonants.map(v => v.letter).indexOf(letter)
+      newConsonants[i].frequency = frequency
+      newConsonants[i].editing = false
+      this.consonants = newConsonants
+    },
     generate() {
       const syllables = this.syllablesInput.split(',')
       for (let i = 0; i < 10; i++) {
@@ -74,7 +105,7 @@ export default {
             if (ch === 'v') {
               return rouletteRandom(this.vowels).letter
             }
-            return this.consonants[Math.floor(Math.random() * this.consonants.length)]
+            return rouletteRandom(this.consonants).letter
           }).join('')
         }
         this.names.push(res)
